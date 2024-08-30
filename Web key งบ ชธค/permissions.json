@@ -1,0 +1,16 @@
+{
+    "596027": {
+        "function2": false,
+        "function1_and_2": false
+    },
+    "t05209": {
+        "function1": false,
+        "function2": false,
+        "function1_and_2": false
+    },
+    "": {
+        "function1": false,
+        "function2": true,
+        "function1_and_2": false
+    }
+}

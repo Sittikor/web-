@@ -1,0 +1,20 @@
+session_start();
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+$permissions_file = 'permissions.json';
+$permissions = [];
+
+if (file_exists($permissions_file)) {
+  $permissions = json_decode(file_get_contents($permissions_file), true);
+}
+
+// ตรวจสอบว่าผู้ใช้มีสิทธิ์ในการเข้าถึง function1 หรือไม่
+if (!isset($permissions[$username]['function1']) || !$permissions[$username]['function1']) {
+  // แก้ไขเพื่อให้ function1 สามารถเข้าถึงได้
+  $permissions[$username]['function1'] = true;
+
+  // เขียนข้อมูล permissions กลับลงในไฟล์ permissions.json
+  file_put_contents($permissions_file, json_encode($permissions));
+
+  echo "เปลี่ยนสิทธิ์เรียบร้อยแล้ว! กรุณาล็อกเอาท์และล็อกอินเข้าสู่ระบบอีกครั้ง";
+  exit();
+}

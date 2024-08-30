@@ -1,0 +1,107 @@
+<?php
+// Set the default timezone to Thailand Standard Time
+date_default_timezone_set('Asia/Bangkok');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['username'])) {
+        $username = $_POST['username'];
+        $log_filename = 'reported_usernames.log';
+        file_put_contents($log_filename, $username . ' - ' . date('Y-m-d H:i:s') . PHP_EOL, FILE_APPEND);
+        echo 'Username reported successfully';
+    } else {
+        echo 'No username provided';
+    }
+}
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Reported Usernames</h1>
+  <ul>
+    <?php
+    // Set the default timezone to Thailand Standard Time
+    date_default_timezone_set('Asia/Bangkok');
+
+    $log_filename = 'reported_usernames.log';
+
+    if (file_exists($log_filename)) {
+        $log_entries = file($log_filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        if ($log_entries !== false) {
+            foreach ($log_entries as $log_entry) {
+                echo '<li>' . htmlspecialchars($log_entry) . '</li>';
+            }
+        } else {
+            echo '<li>Error reading log file.</li>';
+        }
+    } else {
+        echo '<li>No reported usernames yet.</li>';
+    }
+    ?>
+  </ul>
+</body>
+</html>
+
+
+
+
+<?php
+$a = $_POST["username"]; 
+$b = $_POST["password"];
+$client = new SoapClient('http://webservices.egat.co.th/authentication/au_provi.php?wsdl');
+$para = array("a" => $a, "b" => $b);
+$result = $client->__soapCall("validate_user", $para);
+// var_dump($result);
+// exit();
+// exit();
+//เช็คค่า Api
+
+// if ($result) {
+//     echo "a";
+// } elseif (!$result){
+//     echo "b";
+// }
+//เช็คค่าapi ผ่านแล้วไปหน้าต่อไป
+
+if ($result) {
+    
+     header ("Location: home.php");
+    exit();
+} else {
+    // echo "test";
+    // exit();
+      header ("Location: login-user.php");
+    exit();
+}
+?>
+
+
+
+
+
+
+
+
